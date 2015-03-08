@@ -1,0 +1,17 @@
+{
+    "contents" : "regCompact <- read.csv(\"regular_season_compact_results.csv\")\nregResult <- read.csv(\"regular_season_detailed_results.csv\")\nseasons <- read.csv(\"seasons.csv\")\nteams <- read.csv(\"teams.csv\")\ntCompact <- read.csv(\"tourney_compact_results.csv\")\ntDetail <- read.csv(\"tourney_detailed_results.csv\")\ntSeed <- read.csv(\"tourney_seeds.csv\")\ntSlot <- read.csv(\"tourney_slots.csv\")\n\nsampleSub <- read.csv(\"sample_submission.csv\")",
+    "created" : 1425780229061.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "489332596",
+    "id" : "EEF5B962",
+    "lastKnownWriteTime" : 1425780622,
+    "path" : "D:/Github/2015-NCAA-Basketball-Tournament-Predicting/1-read-arrange-data.R",
+    "project_path" : "1-read-arrange-data.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

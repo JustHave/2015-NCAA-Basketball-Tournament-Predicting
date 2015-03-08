@@ -1,0 +1,22 @@
+{
+    "contents" : "",
+    "created" : 1425781039507.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "AC94476F",
+    "lastKnownWriteTime" : 7741240722073845761,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "caption" : "regCompact",
+        "contentUrl" : "content?title=regCompact&file=decf1d0cbb084c79b806a92781bc29e0.htm",
+        "displayedObservations" : 1000,
+        "displayedVariables" : 8,
+        "totalObservations" : 134566,
+        "variables" : 8
+    },
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}
