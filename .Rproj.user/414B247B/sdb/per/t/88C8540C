@@ -1,0 +1,22 @@
+{
+    "contents" : "",
+    "created" : 1428170141160.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "88C8540C",
+    "lastKnownWriteTime" : 7741240722073845761,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "caption" : "teamAverage",
+        "contentUrl" : "content?title=teamAverage&file=79f9bb4280d344bf81eb4bfdc38e6188.htm",
+        "displayedObservations" : 364,
+        "displayedVariables" : 100,
+        "totalObservations" : 364,
+        "variables" : 169
+    },
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}
