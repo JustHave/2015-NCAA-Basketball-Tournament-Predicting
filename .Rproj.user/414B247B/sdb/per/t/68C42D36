@@ -1,0 +1,17 @@
+{
+    "contents" : "rm(list=ls())\n\ntour <- read.csv(\"tourData.csv\")\ntour <- tour[,-1]\nmyData <- tour[tour[1]==2006,]\nmyData <- myData[,4:17]\nrow.names(myData) <- NULL\n\nmyModel <- lm(dif.score~. , data=myData)\nplot(myData[,1],predict(myModel))\nsummary(myModel)\n\nmyY <- sapply(myData[,1], function(d) {\n  if(d>0) {return(1)}\n  else {return(0)}\n})\nmyYpred <- sapply(predict(myModel), function(d) {\n  if(d>0) {return(1)}\n  else {return(0)}\n})\nsum(myY == myYpred) / length(myY)\n\n# -------------------- 1 -------------------- #\n\nmyData[,1] <- myY\nmyModel <- glm(dif.score~. , data=myData, family = \"binomial\")\nsummary(myModel)\n\nmyYpred <- sapply(predict(myModel), function(d) {\n  if(d>0) {return(1)}\n  else {return(0)}\n})\nsum(myY == myYpred) / length(myY)\n\n# -------------------- 2 -------------------- #\n\nnewData <- tour[tour[1]==2010,]\nnewData <- newData[,4:17]\nrow.names(newData) <- NULL\n\nmyPred <- predict(myModel,newData[,2:14])\n\nmyY <- sapply(myData[,2], function(d) {\n  if(d>0) {return(1)}\n  else {return(0)}\n})\nmyYpred <- sapply(myPred, function(d) {\n  if(d>0) {return(1)}\n  else {return(0)}\n})\nsum(myY == myYpred) / length(myY)",
+    "created" : 1428198271214.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1087871732",
+    "id" : "68C42D36",
+    "lastKnownWriteTime" : 1428201372,
+    "path" : "D:/Github/2015-NCAA-Basketball-Tournament-Predicting/2-linear-model-1.R",
+    "project_path" : "2-linear-model-1.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
