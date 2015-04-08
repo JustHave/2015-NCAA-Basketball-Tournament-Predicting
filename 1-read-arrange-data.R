@@ -1,16 +1,8 @@
 rm(list=ls())           # Clear Memory
 # Read Data
 data.teams <- read.csv("original-data/teams.csv")
-data.seeds <- read.csv("original-data/tourney_seeds.csv")
-data.regular <- read.csv("original-data/regular_season_detailed_results.csv")
-data.tourney <- read.csv("original-data/tourney_detailed_results.csv")
-
-year <- 2014
-data.seeds <- data.seeds[data.seeds[,1]==year,]
-data.regular <- data.regular[data.regular[,1]==year,]
-data.tourney <- data.tourney[data.tourney[,1]==year,]
-row.names(data.seeds) <- row.names(data.regular) <- NULL
-row.names(data.tourney) <- NULL
+data.seeds <- read.csv("original-data/tourney_seeds_2015.csv")
+data.regular <- read.csv("original-data/regular_season_detailed_results_2015.csv")
 
 # -------------------- Compute average team data -------------------- #
 
@@ -128,73 +120,13 @@ for(i in 1:nrow(data.regular)) {
   data.diff[i,9:24] <- data.temp
 }
 
-dput(data.average, file = "arranged-data/data-average-2014.R")
-dput(data.diff, file = "arranged-data/data-diff-2014.R")
+dput(data.average, file = "arranged-data/data-average-2015.R")
+dput(data.diff, file = "arranged-data/data-diff-2015.R")
 
 # -------------------- Arrange the tourneyment data -------------------- #
 
-# Initialize the arranged data
-data.diff <- matrix(NA, nrow(data.tourney),length(name.data))
-data.diff <- as.data.frame(data.diff)
-names(data.diff) <- name.data
 
-# Plug in the first few columns
-data.diff[,1] <- data.tourney[,3]
-data.diff[,2] <- data.tourney[,5]
-data.diff[,3] <- data.tourney[,4] - data.tourney[,6]
-data.diff[,4] <- data.tourney[,7]
 
-# Arrange the order of two teams
-for(i in 1:nrow(data.tourney)) {
-  if(data.diff[i,1] > data.diff[i,2]) {
-    # Arrange the order of two teams
-    col.team <- data.diff[i,1]
-    data.diff[i,1] <- data.diff[i,2]
-    data.diff[i,2] <- col.team
-    # Adjust the other parameters
-    data.diff[i,3] <- -data.diff[i,3]
-    if(data.diff[i,4]=="H") {data.diff[i,4]="A"}
-    else if(data.diff[i,4]=="A") {data.diff[i,4]="H"}
-  }
-}
-
-# Plug in the next few columns
-for(i in 1:nrow(data.tourney)) {
-  # Filling data for team 1
-  t1 <- data.diff[i,1]
-  col.team <- which(data.seeds[,3]==t1)
-  if(length(col.team)!=0) {
-    data.temp <- data.seeds[col.team,2]
-    data.diff[i,5] <- as.numeric(substring(data.temp, 2, 3))
-    data.diff[i,6] <- substring(data.temp, 1, 1)
-  } else {
-    data.diff[i,5] <- 20
-    data.diff[i,6] <- "not.seed"
-  }
-  # Filling data for team 2
-  t2 <- data.diff[i,2]
-  col.team <- which(data.seeds[,3]==t2)
-  if(length(col.team)!=0) {
-    data.temp <- data.seeds[col.team,2]
-    data.diff[i,7] <- as.numeric(substring(data.temp, 2, 3))
-    data.diff[i,8] <- substring(data.temp, 1, 1)
-  } else {
-    data.diff[i,7] <- 100
-    data.diff[i,8] <- "not.seed"
-  }
-}
-
-# Plug in the differential data
-for(i in 1:nrow(data.tourney)) {
-  t1 <- data.diff[i,1]
-  t2 <- data.diff[i,2]
-  data.temp.w <- which(data.average[,1]==t1)
-  data.temp.l <- which(data.average[,1]==t2)
-  data.temp <- data.average[data.temp.w,-1] - data.average[data.temp.l,-1]
-  data.diff[i,9:24] <- data.temp
-}
-
-dput(data.diff, file = "arranged-data/data-tourney-diff-2014.R")
 
 
 
