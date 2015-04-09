@@ -1,0 +1,17 @@
+{
+    "contents" : "rm(list=ls())           # Clear Memory\n# Read Data\ndata.diff <- dget(\"arranged-data/data-diff-2011.R\")\ndata.diff <- data.diff[,-c(1,2)]\ndata.tourney <- dget(\"arranged-data/data-tourney-diff-2011.R\")\ndata.tourney <- data.tourney[,-c(1,2)]\n\n# -------------------- Fitting Linear Model -------------------- #\n\nmyModel <- lm(score.diff ~. , data=data.diff)\nsummary(myModel)\nplot(data.diff[,1], predict(myModel))\n\nnewPred <- predict(myModel, newdata = data.tourney[,-1], type=\"response\")\nplot(data.tourney[,1], newPred)\n\naccuracy <- as.logical(data.tourney[,1] * newPred > 0)\nsum(accuracy) / length(accuracy)\n\n# -------------------- Fitting Logistic Model -------------------- #\n\nmyY <- data.diff[,1]\nmyY <- sapply(myY, function(y){return(y>0)})\nmyY <- as.numeric(myY)\ndata.diff[,1] <- myY\ndata.diff[,1] <- factor(data.diff[,1])\n\nmyModel <- glm(score.diff ~. , data=data.diff, family=binomial)\nsummary(myModel)\nmyPred <- predict(myModel)\nmyPred <- sapply(myPred, function(y){return(y>0.5)})\nmyPred <- as.numeric(myPred)\nsum(myY==myPred) / length(myY)\n\nnewY <- data.tourney[,1]\nnewY <- sapply(newY, function(y){return(y>0)})\nnewY <- as.numeric(newY)\nnewPred <- predict(myModel, newdata = data.tourney, type=\"response\")\nnewPred <- sapply(newPred, function(y){return(y>0.5)})\nnewPred <- as.numeric(newPred)\nsum(newY==newPred) / length(newY)\n\n\n\n\n\nnewPred <- predict(myModel, type=\"response\")\nlogloss <- 0\nfor(i in 1:length(myY)) {\n  if(myY[i]==1) logloss <- logloss + log(newPred[i])\n  else logloss <- logloss + log(1-newPred[i])\n}\n\nlogloss <- -logloss/length(myY)\n\n",
+    "created" : 1428537480141.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2695760726",
+    "id" : "EE7F9263",
+    "lastKnownWriteTime" : 1428541799,
+    "path" : "D:/Github/2015-NCAA-Basketball-Tournament-Predicting/2-simple-logistic-model.R",
+    "project_path" : "2-simple-logistic-model.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

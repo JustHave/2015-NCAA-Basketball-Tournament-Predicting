@@ -5,12 +5,14 @@ data.seeds <- read.csv("original-data/tourney_seeds.csv")
 data.regular <- read.csv("original-data/regular_season_detailed_results.csv")
 data.tourney <- read.csv("original-data/tourney_detailed_results.csv")
 
-year <- 2014
+year <- 2011
 data.seeds <- data.seeds[data.seeds[,1]==year,]
 data.regular <- data.regular[data.regular[,1]==year,]
 data.tourney <- data.tourney[data.tourney[,1]==year,]
 row.names(data.seeds) <- row.names(data.regular) <- NULL
 row.names(data.tourney) <- NULL
+
+complement <- 200
 
 # -------------------- Compute average team data -------------------- #
 
@@ -102,7 +104,7 @@ for(i in 1:nrow(data.regular)) {
     data.diff[i,5] <- as.numeric(substring(data.temp, 2, 3))
     data.diff[i,6] <- substring(data.temp, 1, 1)
   } else {
-    data.diff[i,5] <- 20
+    data.diff[i,5] <- complement
     data.diff[i,6] <- "not.seed"
   }
   # Filling data for team 2
@@ -113,7 +115,7 @@ for(i in 1:nrow(data.regular)) {
     data.diff[i,7] <- as.numeric(substring(data.temp, 2, 3))
     data.diff[i,8] <- substring(data.temp, 1, 1)
   } else {
-    data.diff[i,7] <- 100
+    data.diff[i,7] <- complement
     data.diff[i,8] <- "not.seed"
   }
 }
@@ -128,8 +130,8 @@ for(i in 1:nrow(data.regular)) {
   data.diff[i,9:24] <- data.temp
 }
 
-dput(data.average, file = "arranged-data/data-average-2014.R")
-dput(data.diff, file = "arranged-data/data-diff-2014.R")
+dput(data.average, file = "arranged-data/data-average-2011.R")
+dput(data.diff, file = "arranged-data/data-diff-2011.R")
 
 # -------------------- Arrange the tourneyment data -------------------- #
 
@@ -168,7 +170,7 @@ for(i in 1:nrow(data.tourney)) {
     data.diff[i,5] <- as.numeric(substring(data.temp, 2, 3))
     data.diff[i,6] <- substring(data.temp, 1, 1)
   } else {
-    data.diff[i,5] <- 20
+    data.diff[i,5] <- complement
     data.diff[i,6] <- "not.seed"
   }
   # Filling data for team 2
@@ -179,7 +181,7 @@ for(i in 1:nrow(data.tourney)) {
     data.diff[i,7] <- as.numeric(substring(data.temp, 2, 3))
     data.diff[i,8] <- substring(data.temp, 1, 1)
   } else {
-    data.diff[i,7] <- 100
+    data.diff[i,7] <- complement
     data.diff[i,8] <- "not.seed"
   }
 }
@@ -194,7 +196,7 @@ for(i in 1:nrow(data.tourney)) {
   data.diff[i,9:24] <- data.temp
 }
 
-dput(data.diff, file = "arranged-data/data-tourney-diff-2014.R")
+dput(data.diff, file = "arranged-data/data-tourney-diff-2011.R")
 
 
 
