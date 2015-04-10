@@ -1,0 +1,17 @@
+{
+    "contents" : "# Clear memory and load packages\nrm(list=ls())\nlibrary(stats)\nlibrary(glmnet)\n\n# Reading the data\ndata.diff <- dget(\"arranged-data/data-diff-2011.R\")\ndata.diff <- data.diff[,-c(1,2)]\ndata.tourney <- dget(\"arranged-data/data-tourney-diff-2011.R\")\ndata.tourney <- data.tourney[,-c(1,2)]\n# Cleaning the data\ndata.diff[,2] <- as.factor(data.diff[,2])\ndata.diff[,4] <- as.factor(data.diff[,4])\ndata.diff[,6] <- as.factor(data.diff[,6])\ndata.tourney[,2] <- as.factor(data.tourney[,2])\ndata.tourney[,4] <- as.factor(data.tourney[,4])\ndata.tourney[,6] <- as.factor(data.tourney[,6])\n# Cleaning the response\ny <- data.diff[,1]\ny <- sapply(y, function(y){\n  if(y>0) return(\"WIN\")\n  else return(\"LOSE\")\n})\ny <- as.factor(y)\ndata.tr <- data.diff\ndata.tr[,1] <- y\n\n# -------------------- Fitting The Model -------------------- #\n\n# Arrange the data\nx <- data.matrix(data.tr[,-1])\ny <- factor(data.tr[,1])\n\n# Fit lasso logistic model, do cross validation\nmodel.log = cv.glmnet(x, y, family = \"binomial\", , alpha=1, nfolds=50, type.measure = \"class\")\nplot(model.log)\ncoef(model.log, s = \"lambda.min\")\nvar <- c(1,3,4,8,9,11,12,14:21)\nx <- x[,var]\n\n# Fit ridge logistic model, do cross validation\nmodel.log = cv.glmnet(x, y, family = \"binomial\", , alpha=1, nfolds=50, type.measure = \"class\")\n# Check the accuracy\nmy.pred <- predict(model.log, s = \"lambda.min\", newx=x, type = \"class\")\nsum(my.pred==y)/length(y)\n\n# -------------------- Testing The Model -------------------- #\n\nx.new <- data.matrix(data.tourney[,-1])\nx.new <- x.new[,var]\ny.new <- data.tourney[,1]\ny.new <- sapply(y.new, function(y){\n  if(y>0) return(\"WIN\")\n  else return(\"LOSE\")\n})\ny.new <- as.factor(y.new)\n\nmy.pred <- predict(model.log, s = \"lambda.1se\", newx=x.new, type = \"class\")\nsum(y.new == my.pred)/length(y.new)",
+    "created" : 1428699860990.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "460944984",
+    "id" : "4FCB5FB",
+    "lastKnownWriteTime" : 1428703022,
+    "path" : "D:/Github/2015-NCAA-Basketball-Tournament-Predicting/logistic.R",
+    "project_path" : "logistic.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

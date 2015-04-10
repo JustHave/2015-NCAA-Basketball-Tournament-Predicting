@@ -1,0 +1,16 @@
+{
+    "contents" : "# install.packages('rpart',dependencies=TRUE)\n# install.packages('randomForest',dependencies=TRUE)\n# install.packages('party')\n\n# Clearing memory, loading packages\nrm(list=ls())\nlibrary(e1071)\nlibrary(party)\nlibrary(randomForest)\n# Reading the data\ndata.diff <- dget(\"arranged-data/data-diff-2011.R\")\ndata.diff <- data.diff[,-c(1,2)]\ndata.tourney <- dget(\"arranged-data/data-tourney-diff-2011.R\")\ndata.tourney <- data.tourney[,-c(1,2)]\n# Cleaning the data\ndata.diff[,2] <- as.factor(data.diff[,2])\ndata.diff[,4] <- as.factor(data.diff[,4])\ndata.diff[,6] <- as.factor(data.diff[,6])\ndata.tourney[,2] <- as.factor(data.tourney[,2])\ndata.tourney[,4] <- as.factor(data.tourney[,4])\ndata.tourney[,6] <- as.factor(data.tourney[,6])\n# Cleaning the response\nmyY <- data.diff[,1]\nmyY <- sapply(myY, function(y){\n  if(y>0) return(\"WIN\")\n  else return(\"LOSE\")\n})\nmyY <- as.factor(myY)\ndata.tr <- data.diff\ndata.tr[,1] <- myY\n# Cleaning the response\nmyY <- data.tourney[,1]\nmyY <- sapply(myY, function(y){\n  if(y>0) return(\"WIN\")\n  else return(\"LOSE\")\n})\nmyY <- as.factor(myY)\ndata.test <- data.tourney\ndata.test[,1] <- myY\n\n# -------------------- Fitting The Model -------------------- #\n\n# Random Forest prediction of Kyphosis data\nmodel.tree <- cforest(score.diff~., data = data.tr, controls=cforest_unbiased(ntree=300, mtry=3))\npred <- predict(model.tree)\ntab <- table(pred=pred, true=data.tr[,1])\nclassAgreement(tab)\n\n# -------------------- Testing The Model -------------------- #\n\ndata.tr[1:67,] <- data.test\npred <- predict(model.tree, newdata=data.tr[1:67,])\ntab <- table(pred=pred, true=data.test[,1])\nclassAgreement(tab)",
+    "created" : 1428702643259.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3254835064",
+    "id" : "6ED28684",
+    "lastKnownWriteTime" : 1428703025,
+    "path" : "D:/Github/2015-NCAA-Basketball-Tournament-Predicting/tree.R",
+    "project_path" : "tree.R",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
