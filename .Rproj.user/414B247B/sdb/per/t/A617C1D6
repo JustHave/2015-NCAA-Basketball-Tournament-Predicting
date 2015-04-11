@@ -1,0 +1,22 @@
+{
+    "contents" : "",
+    "created" : 1428710433247.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "A617C1D6",
+    "lastKnownWriteTime" : 7741240722073845761,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "caption" : "data.diff",
+        "contentUrl" : "content?title=data.diff&file=8b6d34e470584faa944ac6287866b0c9.htm",
+        "displayedObservations" : "1000",
+        "displayedVariables" : 4,
+        "totalObservations" : "30332",
+        "variables" : "4"
+    },
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}

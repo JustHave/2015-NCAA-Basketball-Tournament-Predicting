@@ -49,6 +49,6 @@ tuned <- tune.svm(score.diff~., data = data.tr)
 # -------------------- Testing The Model -------------------- #
 
 data.tr[1:67,] <- data.test
-pred <- predict(model.svm, data.tr[1:67,])
+pred <- predict(model.svm, data.tr[1:67,], type="response")
 tab <- table(pred=pred, true=data.test[,1])
 classAgreement(tab)

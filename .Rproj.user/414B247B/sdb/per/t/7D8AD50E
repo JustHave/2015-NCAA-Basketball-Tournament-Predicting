@@ -1,0 +1,16 @@
+{
+    "contents" : "# install.packages('e1071',dependencies=TRUE)\n\n# Clearing memory, loading packages\nrm(list=ls())\nlibrary(e1071)\n# Reading the data\ndata.diff <- dget(\"arranged-data/data-diff-2011.R\")\ndata.diff <- data.diff[,-c(1,2)]\ndata.tourney <- dget(\"arranged-data/data-tourney-diff-2011.R\")\ndata.tourney <- data.tourney[,-c(1,2)]\n# Cleaning the data\ndata.diff[,2] <- as.factor(data.diff[,2])\ndata.diff[,4] <- as.factor(data.diff[,4])\ndata.diff[,6] <- as.factor(data.diff[,6])\ndata.tourney[,2] <- as.factor(data.tourney[,2])\ndata.tourney[,4] <- as.factor(data.tourney[,4])\ndata.tourney[,6] <- as.factor(data.tourney[,6])\n# Cleaning the response\nmyY <- data.diff[,1]\nmyY <- sapply(myY, function(y){\n  if(y>0) return(\"WIN\")\n  else return(\"LOSE\")\n})\nmyY <- as.factor(myY)\ndata.tr <- data.diff\ndata.tr[,1] <- myY\n# Cleaning the response\nmyY <- data.tourney[,1]\nmyY <- sapply(myY, function(y){\n  if(y>0) return(\"WIN\")\n  else return(\"LOSE\")\n})\nmyY <- as.factor(myY)\ndata.test <- data.tourney\ndata.test[,1] <- myY\n\n# -------------------- Fitting The Model -------------------- #\n\n# Fitting the model\nmodel.svm  <- svm(score.diff~., data = data.tr)\nsummary(model.svm)\n# Checking its accuracy\npred <- predict(model.svm, data.tr)\ntab <- table(pred=pred, true=data.tr[,1])\nclassAgreement(tab)\ntuned <- tune.svm(score.diff~., data = data.tr)\n# Error estimation of svm using 10-fold cross validation: 0.2394209\n\n# -------------------- Testing The Model -------------------- #\n\ndata.tr[1:67,] <- data.test\npred <- predict(model.svm, data.tr[1:67,], type=\"response\")\ntab <- table(pred=pred, true=data.test[,1])\nclassAgreement(tab)",
+    "created" : 1428713115257.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3145395912",
+    "id" : "7D8AD50E",
+    "lastKnownWriteTime" : 1428703358,
+    "path" : "D:/Github/2015-NCAA-Basketball-Tournament-Predicting/svm.R",
+    "project_path" : "svm.R",
+    "properties" : {
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
